@@ -244,6 +244,130 @@ bool caesarCipher(double& hearts, int& attemptsUsed)
     return false;
 }
 
+bool atbashCipher(double& hearts, int& attemptsUsed)
+{
+    string answer;
+    string correctAnswer = "THE TREASURE IS BURIED UNDER THE TREE";
+    attemptsUsed = 0;
+    cout << "\n====================================\n";
+    cout << "          LEVEL 3 - ATBASH CIPHER\n";
+    cout << "====================================\n";
+    cout << "\n[Bard]: Ye have come far, brave pirate! ([Silly Sam]: might be a biiiiiiiiiiit of an understatement)\n";
+    cout << "[Bard]: But an ancient puzzle blocks your path. ([Silly Sam]: I wonder what it could be...)\n";
+    cout << "[Bard]: Only the clever shall uncover its hidden meaning!\n\n";
+    cout << "[Bard]: Solve the mysterious pirate puzzle:\n";
+    cout << "GSV GIVZHFIV RH YFIRVW FMWVI GSV GIVV\n";
+    cout << "Hint: A = Z, B = Y, C = X ... Z = A\n";
+    while (hearts > 0)
+    {
+        displayHearts(hearts);
+        cout << "\nEnter the decoded puzzle message: ";
+        getline(cin >> ws, answer);
+        attemptsUsed++;
+        for (int i = 0; i < answer.length(); i++)
+        {
+            answer[i] = toupper(answer[i]);
+        }
+        if (answer == correctAnswer)
+        {
+            cout << "\n[Bard]: Correct! You solved the mysterious puzzle!\n";
+            cout << "[Bard]: The treasure seems near ([Silly Sam]: hehehehehehehe!), you've found its location!\n";
+            cout << "[Bard]: Prepare yourself for the next challenge!\n";
+            return true;
+        }
+        else
+        {
+            cout << "\n[Bard]: Incorrect! You lost one heart!\n";
+            hearts -= 1.0;
+            if (hearts < 0)
+                hearts = 0;
+        }
+    }
+    cout << "\n[Bard]: You lost all your hearts!\n";
+    cout << "Level 3 failed!\n";
+    return false;
+}
+bool reverseTextCipher(double& hearts, int& attemptsUsed)
+{
+    string answer;
+    string correctAnswer = "CHEST GO";
+    attemptsUsed = 0;
+    cout << "\n====================================\n";
+    cout << "       LEVEL 4 - FINAL MIXED CIPHER\n";
+    cout << "====================================\n";
+    cout << "\n[Bard]: At last, ye stand before the final challenge!\n";
+    cout << "[Bard]: The legendary treasure lies within reach.\n";
+    cout << "[Bard]: Solve this final mystery and claim your fortune!\n\n";
+    cout << "[Bard]: The final treasure challenge:\n";
+    cout << "[Bard]: TSEHC 52-15-7\n";
+    cout << "[Bard]: Hint 1: Reverse the letters in the word.\n";
+    cout << "[Bard]: Hint 2: Decode the numbers using A = 1, B = 2 ... Z = 26.\n";
+    while (hearts > 0)
+    {
+        displayHearts(hearts);
+        cout << "\nEnter the decoded message: ";
+        getline(cin >> ws, answer);
+        attemptsUsed++;
+        for (int i = 0; i < answer.length(); i++)
+        {
+            answer[i] = toupper(answer[i]);
+        }
+        if (answer == correctAnswer)
+        {
+            cout << "\n[Bard]: YOU SOLVED IT!!\n";
+            cout << "[Bard]: CONGRATULATIONS, MIGHTY PLUNDERER!\n";
+            cout << "[Bard]: You have found the legendary treasure chest, alas!! ([Silly Sam]: I knew you had it in you!)\n";
+            return true;
+        }
+        else
+        {
+            cout << "\n[Bard]: Incorrect! You lost one heart!\n";
+            hearts -= 1.0;
+            if (hearts < 0)
+                hearts = 0;
+        }
+    }
+    cout << "\n[Bard]: You lost all your hearts!\n";
+    cout << "Level 4 failed!\n";
+    return false;
+}
+
+int main() {
+    gameIntro();
+    double hearts = 5.0;
+    int currentLevel = 1;
+    int attemptsUsed = 0;
+    bool levelPassed = false;
+    while (currentLevel <= 4) {
+        levelPassed = false;
+        if (currentLevel == 1) {
+            levelPassed = numberCode(hearts, attemptsUsed);
+        }
+        else if (currentLevel == 2) {
+            levelPassed = caesarCipher(hearts, attemptsUsed);
+        }
+        else if (currentLevel == 3) {
+            levelPassed = atbashCipher(hearts, attemptsUsed);
+        }
+        else if (currentLevel == 4) {
+            levelPassed = reverseTextCipher(hearts, attemptsUsed);
+        }
+        if (levelPassed) {
+            if (currentLevel < 4) {
+                applyCarryOnBonus(hearts, attemptsUsed);
+            }
+            currentLevel++;
+            if (currentLevel > 4) {
+                gameWinScreen();
+                break;
+            }
+        }
+        else {
+            gameReset(&hearts, &currentLevel);
+        }
+    }
+    return 0;
+}
 int main() {
     gameIntro();
     return 0;
